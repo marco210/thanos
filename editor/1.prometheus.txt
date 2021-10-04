@@ -1,0 +1,25 @@
+docker run -d --net=host --rm \
+-v /opt/thanos-prometheus/editor/prometheus.yaml:/etc/prometheus/prometheus.yaml \
+-v /opt/thanos-prometheus/data/prometheus:/prometheus \
+-u root \
+--name prometheus-batcave \
+quay.io/prometheus/prometheus:v2.27.0 \
+--config.file=/etc/prometheus/prometheus.yaml \
+--storage.tsdb.path=/prometheus \
+--web.listen-address=:9090  \
+--storage.tsdb.max-block-duration=15m \
+--web.enable-lifecycle
+
+
+##############################3
+docker run -d --net=host --rm \
+-v /opt/thanos-prometheus/editor/prometheus-node.yaml:/etc/prometheus/prometheus-node.yaml \
+-v /opt/thanos-prometheus/data/prometheus-node:/prometheus \
+-u root \
+--name prometheus-node \
+quay.io/prometheus/prometheus:v2.27.0 \
+--config.file=/etc/prometheus/prometheus-node.yaml \
+--storage.tsdb.path=/prometheus \
+--web.listen-address=:9190 \
+--storage.tsdb.max-block-duration=15m \
+--web.enable-lifecycle
